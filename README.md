@@ -1,3 +1,5 @@
+<img width="1150" height="578" alt="CleanShot 2026-05-23 at 02 36 31" src="https://github.com/user-attachments/assets/7a88a03f-005e-4553-a3c9-f55cec30f158" />
+
 # OpenEnvMap
 
 Open-source environmental intelligence platform for visualizing pollution and environmental data on an interactive geospatial map.
