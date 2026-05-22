@@ -35,6 +35,9 @@ RUN pnpm install --prod
 # Copy compiled output from builder
 COPY --from=builder /app/dist ./dist
 
+# Copy migration files
+COPY drizzle/ ./drizzle/
+
 EXPOSE 3000
 
 CMD ["node", "dist/index.js"]
