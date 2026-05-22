@@ -1,0 +1,13 @@
+{
+  "name": "openenvmap",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --parallel -r dev",
+    "build": "pnpm --parallel -r build"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
