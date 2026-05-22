@@ -28,9 +28,9 @@ function toggleSidebar() {
     <!-- Sidebar -->
     <aside
       :class="[
-        'fixed md:relative z-30 md:z-10 flex h-full flex-col gap-4 bg-gray-900 md:bg-gray-900/90 p-4 backdrop-blur-sm border-r border-gray-700/50 transition-transform duration-300 ease-in-out',
+        'fixed md:relative z-30 md:z-10 flex h-full flex-col gap-4 bg-gray-900 md:bg-gray-900/90 p-4 backdrop-blur-sm border-r border-gray-700/50 transition-all duration-300 ease-in-out',
         'w-72 md:w-80 flex-shrink-0',
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full md:-translate-x-full md:w-0 md:p-0 md:border-0',
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0 md:-ml-80',
       ]"
     >
       <!-- Logo / Title + close button -->
