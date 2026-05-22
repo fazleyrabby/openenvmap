@@ -1,0 +1,40 @@
+# Stage 1: builder — compile TypeScript to JS
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy manifests first for layer caching
+COPY package.json ./
+
+# Install all deps (including devDeps) so tsc is available
+RUN pnpm install --prod=false
+
+# Copy TypeScript source and config
+COPY tsconfig.json ./
+COPY src/ ./src/
+
+# Compile
+RUN pnpm build
+
+
+# Stage 2: runner — lean production image
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy manifest and install prod deps only
+COPY package.json ./
+RUN pnpm install --prod
+
+# Copy compiled output from builder
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+
+CMD ["node", "dist/index.js"]

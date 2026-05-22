@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    restart: always
+    environment:
+      POSTGRES_DB: openenvmap
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d openenvmap"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - openenvmap
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.prod
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/openenvmap
+      API_PORT: 3000
+      OPENAQ_API_KEY: ${OPENAQ_API_KEY}
+    networks:
+      - openenvmap
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.prod
+    restart: always
+    ports:
+      - "127.0.0.1:3006:80"
+    depends_on:
+      - api
+    networks:
+      - openenvmap
+
+volumes:
+  postgres_data:
+
+networks:
+  openenvmap:
+    driver: bridge
